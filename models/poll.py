@@ -99,7 +99,7 @@ class Poll:
         elif number == 3:
             return ['😍', '👍', '🤐', '👎', '🤢']
         elif number == 4:
-            return ['in favour', 'against', 'abstaining']
+            return [':repup:', ':admiral:', ':repdown:']
 
     async def is_open(self, update_db=True):
         if self.server is None:
@@ -124,9 +124,9 @@ class Poll:
         return self.active
 
     async def wizard_says(self, ctx, text, footer=True):
-        embed = discord.Embed(title="Poll creation Wizard", description=text, color=SETTINGS.color)
+        embed = discord.Embed(title="Полл цреатион Wизард", description=text, color=SETTINGS.color)
         if footer:
-            embed.set_footer(text="Type `stop` to cancel the wizard.")
+            embed.set_footer(text="Тыпе `stop` то цанцел тхе wизард.")
         msg = await ctx.send(embed=embed)
         self.wizard_messages.append(msg)
         return msg
@@ -134,8 +134,8 @@ class Poll:
     async def wizard_says_edit(self, message, text, add=False):
         if add and message.embeds.__len__() > 0:
             text = message.embeds[0].description + text
-        embed = discord.Embed(title="Poll creation Wizard", description=text, color=SETTINGS.color)
-        embed.set_footer(text="Type `stop` to cancel the wizard.")
+        embed = discord.Embed(title="Полл цреатион Wизард", description=text, color=SETTINGS.color)
+        embed.set_footer(text="Тыпе `stop` то цанцел тхе wизард.")
         return await message.edit(embed=embed)
 
     async def add_error(self, message, error):
@@ -162,12 +162,12 @@ class Poll:
         if reply and reply.content:
             self.wizard_messages.append(reply)
             if reply.content.startswith(await get_pre(self.bot, reply)):
-                await self.wizard_says(ctx, f'You can\'t use bot commands during the Poll Creation Wizard.\n'
-                                       f'Stopping the Wizard and then executing the command:\n`{reply.content}`',
+                await self.wizard_says(ctx, f'Ёу цан\'т усе бот цоммандс дуринг тхе Полл Цреатион Wизард.\n'
+                                       f'Стоппинг тхе Wизард анд тхен ехецутинг тхе цомманд:\n`{reply.content}`',
                                        footer=False)
                 raise StopWizard
             elif reply.content.lower() == 'stop':
-                await self.wizard_says(ctx, 'Poll Wizard stopped.', footer=False)
+                await self.wizard_says(ctx, 'Полл Wизард стоппед.', footer=False)
                 raise StopWizard
 
             else:
@@ -207,8 +207,8 @@ class Poll:
         except InputError:
             pass
 
-        text = ("**What is the question of your poll?**\n"
-                "Try to be descriptive without writing more than one sentence.")
+        text = ("**Wхат ис тхе qуестион оф ёур полл?**\n"
+                "Тры то бе десцриптиве wитхоут wритинг море тхан оне сентенце.")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -222,7 +222,7 @@ class Poll:
                 await self.add_vaild(message, self.name)
                 break
             except InvalidInput:
-                await self.add_error(message, '**Keep the poll question between 3 and 400 valid characters**')
+                await self.add_error(message, '**Кееп тхе полл qуестион бетwеен 3 анд 400 валид чарацтерс**')
 
     async def set_short(self, ctx, force=None):
         """Set the label of the Poll."""
@@ -249,8 +249,8 @@ class Poll:
         except InputError:
             pass
 
-        text = """Great. **Now type a unique one word identifier, a label, for your poll.**
-         This label will be used to refer to the poll. Keep it short and significant."""
+        text = """Греат. **Ноw тыпе а униqуе оне wорд идентифиер, а лабел, фор ёур полл.**
+         Тхис лабел wилл бе усед то рефер то тхе полл. Кееп ит шорт анд сигнифицант."""
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -264,12 +264,12 @@ class Poll:
                 await self.add_vaild(message, self.short)
                 break
             except InvalidInput:
-                await self.add_error(message, '**Only one word between 2 and 25 valid characters!**')
+                await self.add_error(message, '**Онлы оне wорд бетwеен 2 анд 25 валид чарацтерс!**')
             except ReservedInput:
-                await self.add_error(message, '**Can\'t use reserved words (open, closed, prepared) as label!**')
+                await self.add_error(message, '**Цан\'т усе ресервед wордс (опен, цлосед, препаред) ас лабел!**')
             except DuplicateInput:
                 await self.add_error(message,
-                                     f'**The label `{reply}` is not unique on this server. Choose a different one!**')
+                                     f'**Тхе лабел `{reply}` ис нот униqуе он тхис сервер. Чоосе а дифферент оне!**')
 
     async def set_preparation(self, ctx, force=None):
         """Set the preparation conditions for the Poll."""
@@ -313,10 +313,10 @@ class Poll:
         except InputError:
             pass
 
-        text = ("This poll will be created inactive. You can either schedule activation at a certain date or activate "
-                "it manually. **Type `0` to activate it manually or tell me when you want to activate it** by "
-                "typing an absolute or relative date. You can specify a timezone if you want.\n"
-                "Examples: `in 2 days`, `next week CET`, `may 3rd 2019`, `9.11.2019 9pm EST` ")
+        text = ("Тхис полл wилл бе цреатед инацтиве. Ёу цан еитхер счедуле ацтиватион ат а цертаин дате ор ацтивате "
+                "ит мануаллы. **Тыпе `0` то ацтивате ит мануаллы ор телл ме wхен ёу wант то ацтивате ит** бы "
+                "тыпинг ан абсолуте ор релативе дате. Ёу цан специфы а тимезоне иф ёу wант.\n"
+                "Ехамплес: `in 2 days`, `next week CET`, `may 3rd 2019`, `9.11.2019 9pm EST` ")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -329,18 +329,18 @@ class Poll:
                 dt = await get_valid(reply)
                 self.activation = dt
                 if self.activation == 0:
-                    await self.add_vaild(message, 'manually activated')
+                    await self.add_vaild(message, 'мануаллы ацтиватед')
                 else:
                     self.activation_tz = dt.utcoffset().total_seconds() / 3600
                     await self.add_vaild(message, self.activation.strftime('%d-%b-%Y %H:%M %Z'))
                 self.active = False
                 break
             except InvalidInput:
-                await self.add_error(message, '**Specify the activation time in a format i can understand.**')
+                await self.add_error(message, '**Специфы тхе ацтиватион тиме ин а формат и цан ундерстанд.**')
             except TypeError:
-                await self.add_error(message, '**Type Error.**')
+                await self.add_error(message, '**Тыпе Еррор.**')
             except DateOutOfRange as e:
-                await self.add_error(message, f'**{e.date.strftime("%d-%b-%Y %H:%M")} is in the past.**')
+                await self.add_error(message, f'**{e.date.strftime("%d-%b-%Y %H:%M")} ис ин тхе паст.**')
 
     async def set_anonymous(self, ctx, force=None):
         """Determine if poll is anonymous."""
@@ -365,14 +365,14 @@ class Poll:
         except InputError:
             pass
 
-        text = ("Next you need to decide: **Do you want your poll to be anonymous?**\n"
+        text = ("Нехт ёу неед то дециде: **До ёу wант ёур полл то бе анонымоус?**\n"
                 "\n"
-                "`0 - No`\n"
-                "`1  - Yes`\n"
+                "`0 - Но`\n"
+                "`1  - Эс`\n"
                 "\n"
-                "An anonymous poll has the following effects:\n"
-                "🔹 You will never see who voted for which option\n"
-                "🔹 Once the poll is closed, you will see who participated (but not their choice)")
+                "Ан анонымоус полл хас тхе фоллоwинг еффецтс:\n"
+                "🔹 Ёу wилл невер сее wхо вотед фор wхич оптион\n"
+                "🔹 Онце тхе полл ис цлосед, ёу wилл сее wхо партиципатед (бут нот тхеир чоице)")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -386,7 +386,7 @@ class Poll:
                 await self.add_vaild(message, f'{"Yes" if self.anonymous else "No"}')
                 break
             except InvalidInput:
-                await self.add_error(message, '**You can only answer with `yes` | `1` or `no` | `0`!**')
+                await self.add_error(message, '**Ёу цан онлы ансwер wитх `yes` | `1` ор `no` | `0`!**')
 
     async def set_multiple_choice(self, ctx, force=None):
         """Determine if poll is multiple choice."""
@@ -411,14 +411,14 @@ class Poll:
         except InputError:
             pass
 
-        text = ("**How many options should the voters be able choose?**\n"
+        text = ("**Хоw маны оптионс шоулд тхе вотерс бе абле чоосе?**\n"
                 "\n"
-                "`0 - No Limit: Multiple Choice`\n"
-                "`1  - Single Choice`\n"
-                "`2+  - Specify exactly how many Choices`\n"
+                "`0 - Но Лимит: Мултипле Чоице`\n"
+                "`1  - Сингле Чоице`\n"
+                "`2+  - Специфы ехацтлы хоw маны Чоицес`\n"
                 "\n"
-                "If the maximum choices are reached for a voter, they have to unvote an option before being able to "
-                "vote for a different one.")
+                "Иф тхе махимум чоицес аре реачед фор а вотер, тхеы хаве то унвоте ан оптион бефоре беинг абле то "
+                "воте фор а дифферент оне.")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -432,11 +432,11 @@ class Poll:
                 await self.add_vaild(message, f'{self.multiple_choice if self.multiple_choice > 0 else "No Limit"}')
                 break
             except InvalidInput:
-                await self.add_error(message, '**Invalid Input**')
+                await self.add_error(message, '**Инвалид Инпут**')
             except ExpectedInteger:
-                await self.add_error(message, '**Enter a positive number**')
+                await self.add_error(message, '**Ентер а поситиве нумбер**')
             except OutOfRange:
-                await self.add_error(message, '**You can\'t have more choices than options.**')
+                await self.add_error(message, '**Ёу цан\'т хаве море чоицес тхан оптионс.**')
 
     async def set_options_reaction(self, ctx, force=None):
         """Set the answers / options of the Poll."""
@@ -473,16 +473,16 @@ class Poll:
         except InputError:
             pass
 
-        text = ("**Choose the options/answers for your poll.**\n"
-                "Either chose a preset of options or type your own options, separated by commas.\n"
+        text = ("**Чоосе тхе оптионс/ансwерс фор ёур полл.**\n"
+                "Еитхер чосе а пресет оф оптионс ор тыпе ёур оwн оптионс, сепаратед бы цоммас.\n"
                 "\n"
                 "**1** - :white_check_mark: :negative_squared_cross_mark:\n"
                 "**2** - :thumbsup: :zipper_mouth: :thumbsdown:\n"
                 "**3** - :heart_eyes: :thumbsup: :zipper_mouth:  :thumbsdown: :nauseated_face:\n"
-                "**4** - in favour, against, abstaining\n"
+                "**4** - :repup: :admiral: :repdown:\n"
                 "\n"
-                "Example for custom options:\n"
-                "**apple juice, banana ice cream, kiwi slices** ")
+                "Ехампле фор цустом оптионс:\n"
+                "**аппле юице, банана ице цреам, киwи слицес** ")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -504,12 +504,12 @@ class Poll:
                 break
             except InvalidInput:
                 await self.add_error(message,
-                                     '**Invalid entry. Type `1`, `2`, `3` or `4` or a comma separated list of '
-                                     'up to 18 options.**')
+                                     '**Инвалид ентры. Тыпе `1`, `2`, `3` ор `4` ор а цомма сепаратед лист оф '
+                                     'уп то 18 оптионс.**')
             except WrongNumberOfArguments:
                 await self.add_error(message,
-                                     '**You need more than 1 and less than 19 options! '
-                                     'Type them in a comma separated list.**')
+                                     '**Ёу неед море тхан 1 анд лесс тхан 19 оптионс! '
+                                     'Тыпе тхем ин а цомма сепаратед лист.**')
 
     async def set_survey_flags(self, ctx, force=None):
         """Decide which Options will ask for user input."""
@@ -538,17 +538,17 @@ class Poll:
         except InputError:
             pass
 
-        text = ("**Which options should ask the user for a custom answer?**\n"
-                "Type `0` to skip survey options.\n"
-                "If you want multiple survey options, separate the numbers with a comma.\n"
+        text = ("**Wхич оптионс шоулд аск тхе усер фор а цустом ансwер?**\n"
+                "Тыпе `0` то скип сурвеы оптионс.\n"
+                "Иф ёу wант мултипле сурвеы оптионс, сепарате тхе нумберс wитх а цомма.\n"
                 "\n"
-                "`0 - None (classic poll)`\n"
+                "`0 - Ноне (цлассиц полл)`\n"
                 )
         for i, option in enumerate(self.options_reaction):
             text += f'`{i + 1} - {option}`\n'
         text += ("\n"
-                 "If the user votes for one of these options, the bot will PM them and ask them to provide a text "
-                 "input. You can use this to do surveys or to gather feedback for example.\n")
+                 "Иф тхе усер вотес фор оне оф тхесе оптионс, тхе бот wилл ПМ тхем анд аск тхем то провиде а техт "
+                 "инпут. Ёу цан усе тхис то до сурвеыс ор то гатхер феедбацк фор ехампле.\n")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -564,11 +564,11 @@ class Poll:
                 )
                 break
             except InvalidInput:
-                await self.add_error(message, '**I can\'t read this input.**')
+                await self.add_error(message, '**И цан\'т реад тхис инпут.**')
             except ExpectedInteger:
-                await self.add_error(message, '**Only type positive numbers separated by a comma.**')
+                await self.add_error(message, '**Онлы тыпе поситиве нумберс сепаратед бы а цомма.**')
             except OutOfRange:
-                await self.add_error(message, '**Only type numbers you can see in the list.**')
+                await self.add_error(message, '**Онлы тыпе нумберс ёу цан сее ин тхе лист.**')
 
     async def set_hide_vote_count(self, ctx, force=None):
         """Determine the live vote count is hidden or shown."""
@@ -593,13 +593,13 @@ class Poll:
         except InputError:
             pass
 
-        text = ("**Do you want to hide the live vote count?**\n"
+        text = ("**До ёу wант то хиде тхе ливе воте цоунт?**\n"
                 "\n"
-                "`0 - No, show it (Default)`\n"
-                "`1  - Yes, hide it`\n"
+                "`0 - Но, шоw ит (Дефаулт)`\n"
+                "`1  - Эс, хиде ит`\n"
                 "\n"
-                "You will still be able to see the vote count once the poll is closed. This settings will just hide "
-                "the vote count while the poll is active.")
+                "Ёу wилл стилл бе абле то сее тхе воте цоунт онце тхе полл ис цлосед. Тхис сеттингс wилл юст хиде "
+                "тхе воте цоунт wхиле тхе полл ис ацтиве.")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -613,7 +613,7 @@ class Poll:
                 await self.add_vaild(message, f'{"Yes" if self.hide_count else "No"}')
                 break
             except InvalidInput:
-                await self.add_error(message, '**You can only answer with `yes` | `1` or `no` | `0`!**')
+                await self.add_error(message, '**Ёу цан онлы ансwер wитх `yes` | `1` ор `no` | `0`!**')
 
     async def set_roles(self, ctx, force=None):
         """Set role restrictions for the Poll."""
@@ -653,21 +653,21 @@ class Poll:
             pass
 
         if n_roles <= 20:
-            text = ("**Choose which roles are allowed to vote.**\n"
-                    "Type `0`, `all` or `everyone` to have no restrictions.\n"
-                    "If you want multiple roles to be able to vote, separate the numbers with a comma.\n")
-            text += f'\n`{0} - no restrictions`'
+            text = ("**Чоосе wхич ролес аре аллоwед то воте.**\n"
+                    "Тыпе `0`, `all` ор `everyone` то хаве но рестрицтионс.\n"
+                    "Иф ёу wант мултипле ролес то бе абле то воте, сепарате тхе нумберс wитх а цомма.\n")
+            text += f'\n`{0} - но рестрицтионс`'
 
             for i, role in enumerate([r.name for r in self.server.roles]):
                 text += f'\n`{i+1} - {role}`'
             text += ("\n"
                      "\n"
-                     " Example: `2, 3` \n")
+                     " Ехампле: `2, 3` \n")
         else:
-            text = ("**Choose which roles are allowed to vote.**\n"
-                    "Type `0`, `all` or `everyone` to have no restrictions.\n"
-                    "Type out the role names, separated by a comma, to restrict voting to specific roles:\n"
-                    "`moderators, Editors, vips` (hint: role names are case sensitive!)\n")
+            text = ("**Чоосе wхич ролес аре аллоwед то воте.**\n"
+                    "Тыпе `0`, `all` ор `everyone` то хаве но рестрицтионс.\n"
+                    "Тыпе оут тхе роле намес, сепаратед бы а цомма, то рестрицт вотинг то специфиц ролес:\n"
+                    "`moderators, Editors, vips` (хинт: роле намес аре цасе сенситиве!)\n")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -681,13 +681,13 @@ class Poll:
                 await self.add_vaild(message, f'{", ".join(self.roles)}')
                 break
             except InvalidInput:
-                await self.add_error(message, '**I can\'t read this input.**')
+                await self.add_error(message, '**И цан\'т реад тхис инпут.**')
             except ExpectedInteger:
-                await self.add_error(message, '**Only type positive numbers separated by a comma.**')
+                await self.add_error(message, '**Онлы тыпе поситиве нумберс сепаратед бы а цомма.**')
             except OutOfRange:
-                await self.add_error(message, '**Only type numbers you can see in the list.**')
+                await self.add_error(message, '**Онлы тыпе нумберс ёу цан сее ин тхе лист.**')
             except InvalidRoles as e:
-                await self.add_error(message, f'**The following roles are invalid: {e.roles}**')
+                await self.add_error(message, f'**Тхе фоллоwинг ролес аре инвалид: {e.roles}**')
 
     async def set_weights(self, ctx, force=None):
         """Set role weights for the poll."""
@@ -725,11 +725,11 @@ class Poll:
         except InputError:
             pass
 
-        text = ("Almost done.\n"
-                "**Weights allow you to give certain roles more or less effective votes.\n"
-                "Type `0` or `none` if you don't need any weights.**\n"
-                "A weight for the role `moderator` of `2` for example will automatically count the votes of all the moderators twice.\n"
-                "To assign weights type the role, followed by a colon, followed by the weight like this:\n"
+        text = ("Алмост доне.\n"
+                "**Wеигхтс аллоw ёу то гиве цертаин ролес море ор лесс еффецтиве вотес.\n"
+                "Тыпе `0` ор `none` иф ёу доньт неед аны wеигхтс.**\n"
+                "А wеигхт фор тхе роле `moderator` оф `2` фор ехампле wилл аутоматицаллы цоунт тхе вотес оф алл тхе модераторс тwице.\n"
+                "То ассигн wеигхтс тыпе тхе роле, фоллоwед бы а цолон, фоллоwед бы тхе wеигхт лике тхис:\n"
                 "`moderator: 2, newbie: 0.5`")
         message = await self.wizard_says(ctx, text)
 
@@ -750,15 +750,15 @@ class Poll:
                 await self.add_vaild(message, ", ".join(weights))
                 break
             except InvalidInput:
-                await self.add_error(message, '**Can\'t read this input.**')
+                await self.add_error(message, '**Цан\'т реад тхис инпут.**')
             except ExpectedSeparator as e:
-                await self.add_error(message, f'**Expected roles and weights to be separated by {e.separator}**')
+                await self.add_error(message, f'**Ехпецтед ролес анд wеигхтс то бе сепаратед бы {e.separator}**')
             except InvalidRoles as e:
-                await self.add_error(message, f'**Invalid role found: {e.roles}**')
+                await self.add_error(message, f'**Инвалид роле фоунд: {e.roles}**')
             except ValueError:
-                await self.add_error(message, f'**Weights must be numbers.**')
+                await self.add_error(message, f'**Wеигхтс муст бе нумберс.**')
             except WrongNumberOfArguments:
-                await self.add_error(message, f'**Not every role has a weight assigned.**')
+                await self.add_error(message, f'**Нот еверы роле хас а wеигхт ассигнед.**')
 
     async def set_duration(self, ctx, force=None):
         """Set the duration /deadline for the Poll."""
@@ -792,13 +792,13 @@ class Poll:
         except InputError:
             pass
 
-        text = ("Last step.\n"
-                "**When should the poll be closed?**\n"
-                "If you want the poll to last indefinitely (until you close it), type `0`."
-                "Otherwise tell me when the poll should close in relative or absolute terms. "
-                "You can specify a timezone if you want.\n"
+        text = ("Ласт степ.\n"
+                "**Wхен шоулд тхе полл бе цлосед?**\n"
+                "Иф ёу wант тхе полл то ласт индефинителы (унтил ёу цлосе ит), тыпе `0`."
+                "Отхерwисе телл ме wхен тхе полл шоулд цлосе ин релативе ор абсолуте термс. "
+                "Ёу цан специфы а тимезоне иф ёу wант.\n"
                 "\n"
-                "Examples: `in 6 hours` or `next week CET` or `aug 15th 5:10` or `15.8.2019 11pm EST`")
+                "Ехамплес: `in 6 hours` ор `next week CET` ор `aug 15th 5:10` oр `15.8.2019 11pm EST`")
         message = await self.wizard_says(ctx, text)
 
         while True:
@@ -811,17 +811,17 @@ class Poll:
                 dt = await get_valid(reply)
                 self.duration = dt
                 if self.duration == 0:
-                    await self.add_vaild(message, 'until closed manually')
+                    await self.add_vaild(message, 'унтил цлосед мануаллы')
                 else:
                     self.duration_tz = dt.utcoffset().total_seconds() / 3600
                     await self.add_vaild(message, self.duration.strftime('%d-%b-%Y %H:%M %Z'))
                 break
             except InvalidInput:
-                await self.add_error(message, '**Specify the deadline in a format I can understand.**')
+                await self.add_error(message, '**Специфы тхе деадлине ин а формат И цан ундерстанд.**')
             except TypeError:
-                await self.add_error(message, '**Type Error.**')
+                await self.add_error(message, '**Тыпе Еррор.**')
             except DateOutOfRange as e:
-                await self.add_error(message, f'**{e.date.strftime("%d-%b-%Y %H:%M")} is in the past.**')
+                await self.add_error(message, f'**{e.date.strftime("%d-%b-%Y %H:%M")} ис ин тхе паст.**')
 
     def finalize(self):
         self.time_created = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
@@ -850,8 +850,8 @@ class Poll:
                 return None
         except asyncio.TimeoutError:
             if message.embeds.__len__() > 0:
-                embed.description = embed.description + '\n\n:exclamation: Request timed out. Vote was counted, ' \
-                                                        'but no custom answer recorded.'
+                embed.description = embed.description + '\n\n:ехцламатион: Реqуест тимед оут. Воте wас цоунтед, ' \
+                                                        'бут но цустом ансwер рецордед.'
                 await message.edit(embed=embed)
             return None
 
@@ -859,7 +859,7 @@ class Poll:
             reply = self.sanitize_string(reply)
         except InvalidInput:
             embed = discord.Embed(title=title,
-                                  description="Invalid Input. To try again, un-vote and re-vote the option.",
+                                  description="Инвалид Инпут. То тры агаин, ун-воте анд ре-воте тхе оптион.",
                                   color=SETTINGS.color
                                   )
             await user.send(embed=embed)
@@ -1344,8 +1344,8 @@ class Poll:
 
         custom_text = ""
         if len(self.survey_flags) > 0:
-            custom_text = " 🖊 next to an option means you can submit a custom answer."
-        embed.set_footer(text='React with ❔ to get info. It is not a vote option.' + custom_text)
+            custom_text = " 🖊 нехт то ан оптион меанс ёу цан субмит а цустом ансwер."
+        embed.set_footer(text='Реацт wитх ❔ то гет инфо. Ит ис нот а воте оптион.' + custom_text)
         return embed
 
     async def post_embed(self, destination):
@@ -1497,9 +1497,9 @@ class Poll:
 
         # check if max votes exceeded
         if 0 < self.multiple_choice <= len(votes):
-            say_text = f'You have reached the **maximum choices of {self.multiple_choice}** for this poll. ' \
-                f'Before you can vote again, you need to unvote one of your choices.\n' \
-                f'Your current choices are:\n'
+            say_text = f'Ёу хаве реачед тхе **махимум чоицес оф {self.multiple_choice}** фор тхис полл. ' \
+                f'Бефоре ёу цан воте агаин, ёу неед то унвоте оне оф ёур чоицес.\n' \
+                f'Ёур цуррент чоицес аре:\n'
             for v in votes:
                 if self.options_reaction_default:
                     say_text += f'{self.options_reaction[v.choice]}\n'
@@ -1516,16 +1516,16 @@ class Poll:
         if choice in self.survey_flags:
             answer = await self.ask_for_input_dm(
                 user,
-                "Custom Answer",
-                "For this vote option you can provide a custom reply. "
-                "Note that everyone will be able to see the answer. If you don't want to provide a "
-                "custom answer, type \"-\""
+                "Цустом Ансwер",
+                "Фор тхис воте оптион ёу цан провиде а цустом реплы. "
+                "Ноте тхат еверёне wилл бе абле то сее тхе ансwер. Иф ёу доньт wант то провиде а "
+                "цустом ансwер, тыпе \"-\""
             )
             if not answer or answer.lower() == "-":
                 answer = "No Answer"
 
         if self.anonymous and self.hide_count:
-            self.bot.loop.create_task(user.send(f'Your vote for **{self.options_reaction[choice]}** has been counted.'))
+            self.bot.loop.create_task(user.send(f'Ёур воте фор **{self.options_reaction[choice]}** хас беен цоунтед.'))
 
         # commit
         vote = Vote(self.bot, self.id, user.id, choice, weight, answer)
@@ -1565,7 +1565,7 @@ class Poll:
         if not self.hide_count:
             await self.refresh(message)
         elif self.anonymous:
-            self.bot.loop.create_task(f'Your vote for **{self.options_reaction[choice]}** has been removed.')
+            self.bot.loop.create_task(f'Ёур воте фор **{self.options_reaction[choice]}** хас беен ремовед.')
 
     def has_required_role(self, user):
         try:
