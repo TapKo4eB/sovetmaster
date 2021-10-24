@@ -99,7 +99,7 @@ class Poll:
         elif number == 3:
             return ['😍', '👍', '🤐', '👎', '🤢']
         elif number == 4:
-            return [':repup:', ':admiral:', ':repdown:']
+            return ['<:repup:901851962281197578>', '<:admiral:901852013787238441>', '<:repdown:901851940336566332>']
 
     async def is_open(self, update_db=True):
         if self.server is None:
