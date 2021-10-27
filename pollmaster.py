@@ -7,6 +7,7 @@ import discord
 import logging
 
 
+from essentials.membercache import MemberCache
 from essentials.messagecache import MessageCache
 from discord.ext import commands
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -24,10 +25,11 @@ bot_config = {
     'max_messages': 15000
 }
 
-bot = commands.AutoShardedBot(**bot_config)
+bot = commands.Bot(**bot_config)
 bot.remove_command('help')
 
 bot.message_cache = MessageCache(bot)
+bot.members_cache = MemberCache()
 bot.refresh_blocked = {}
 bot.refresh_queue = {}
 
