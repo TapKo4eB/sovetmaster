@@ -567,7 +567,7 @@ class PollControls(commands.Cog):
                 await poll.post_embed(poll.channel)
 
         except Exception as error:
-            logger.error("ERROR IN pm!cmd")
+            logger.error("ERROR IN sm!cmd")
             logger.exception(error)
 
     @commands.command()

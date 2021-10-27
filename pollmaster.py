@@ -95,16 +95,16 @@ async def on_ready():
     #             # create new config entry
     #             await bot.db.config.update_one(
     #                 {'_id': str(server.id)},
-    #                 {'$set': {'prefix': 'pm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
+    #                 {'$set': {'prefix': 'sm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
     #                 upsert=True
     #             )
     # except:
     #     print("Problem verifying servers.")
 
     # cache prefixes
-    bot.pre = {entry['_id']: entry.get('prefix', 'pm!') async for entry in bot.db.config.find({}, {'_id', 'prefix'})}
+    bot.pre = {entry['_id']: entry.get('prefix', 'sm!') async for entry in bot.db.config.find({}, {'_id', 'prefix'})}
 
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="pm!help"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="sm!help"))
 
     print("Bot running.")
 
@@ -159,9 +159,9 @@ async def on_guild_join(server):
     if result is None:
         await bot.db.config.update_one(
             {'_id': str(server.id)},
-            {'$set': {'prefix': 'pm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
+            {'$set': {'prefix': 'sm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
             upsert=True
         )
-        bot.pre[str(server.id)] = 'pm!'
+        bot.pre[str(server.id)] = 'sm!'
 
 bot.run(SETTINGS.bot_token)

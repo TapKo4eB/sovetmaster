@@ -80,9 +80,9 @@ class ClusterBot(commands.AutoShardedBot):
         self.session = aiohttp.ClientSession()
         with open('utils/emoji-compact.json', encoding='utf-8') as emojson:
             self.emoji_dict = json.load(emojson)
-        self.pre = {entry['_id']: entry.get('prefix', 'pm!') async for entry in
+        self.pre = {entry['_id']: entry.get('prefix', 'sm!') async for entry in
                    self.db.config.find({}, {'_id', 'prefix'})}
-        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="pm!help"))
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="sm!help"))
 
         self.log.info(f'[Cluster#{self.cluster_name}] Ready called.')
         self.pipe.send(1)
@@ -93,10 +93,10 @@ class ClusterBot(commands.AutoShardedBot):
         if result is None:
             await self.db.config.update_one(
                 {'_id': str(server.id)},
-                {'$set': {'prefix': 'pm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
+                {'$set': {'prefix': 'sm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
                 upsert=True
             )
-            self.pre[str(server.id)] = 'pm!'
+            self.pre[str(server.id)] = 'sm!'
 
     async def on_shard_ready(self, shard_id):
         self.log.info(f'[Cluster#{self.cluster_name}] Shard {shard_id} ready')

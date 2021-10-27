@@ -10,7 +10,7 @@ async def get_pre(bot, message):
     if isinstance(message.channel, discord.abc.PrivateChannel):
         shared_server_list = await get_servers(bot, message)
         if shared_server_list.__len__() == 0:
-            return 'pm!'
+            return 'sm!'
         elif shared_server_list.__len__() == 1:
             return await get_server_pre(bot, shared_server_list[0])
         else:
@@ -28,16 +28,16 @@ async def get_server_pre(bot, server):
         # if not cached, insert into DB (this will override the configs, but they were not found to begin with)
         await bot.db.config.update_one(
             {'_id': str(server.id)},
-            {'$set': {'prefix': 'pm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
+            {'$set': {'prefix': 'sm!', 'admin_role': 'polladmin', 'user_role': 'polluser'}},
             upsert=True
         )
-        bot.pre[str(server.id)] = 'pm!'
-        return 'pm!'
+        bot.pre[str(server.id)] = 'sm!'
+        return 'sm!'
     except AttributeError:
         # bot not ready
-        return 'pm!'
+        return 'sm!'
     if not result:
-        return 'pm!'
+        return 'sm!'
     return result
 
 
